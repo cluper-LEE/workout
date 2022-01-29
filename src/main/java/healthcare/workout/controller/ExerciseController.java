@@ -47,4 +47,11 @@ public class ExerciseController {
         exerciseMuscleCategoryService.save(exerciseMuscleCategory);
         return "redirect:/";
     }
+
+    @GetMapping("/exercises")
+    public String exerciseList(Model model) {
+        List<Exercise> exerciseList = exerciseService.findAll();
+        model.addAttribute("exerciseList", exerciseList);
+        return "exercises/exerciseList";
+    }
 }

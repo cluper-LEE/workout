@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:include="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>운동명</th>
+                <th>카테고리</th>
+                <th>재고수량</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exercise : ${exerciseList}">
+                <td th:text="${exercise.id}"></td>
+                <td th:text="${exercise.name}"></td>
+                <td>
+                    <span
+                            th:unless="${#lists.isEmpty(exercise.exerciseMuscleCategories)}"
+                            th:each="category : ${exercise.exerciseMuscleCategories}"
+                            th:text="${category.muscleCategory.name} "
+                    >
+                    </span>
+                </td>
+                <td></td>
+                <td>
+                    <a href="#" th:href="@{/exercises/{id}/edit (id=${exercise.id})}"
+                       class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:include="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
