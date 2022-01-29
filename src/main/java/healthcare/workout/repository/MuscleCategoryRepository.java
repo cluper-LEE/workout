@@ -27,9 +27,14 @@ public class MuscleCategoryRepository {
         return em.createQuery("select mc from MuscleCategory mc", MuscleCategory.class)
                 .getResultList();
     }
-    public List<MuscleCategory> findByName(String name) {
-        return em.createQuery("select mc from MuscleCategory mc where mc.name = :name", MuscleCategory.class)
+    public MuscleCategory findByName(String name) {
+        List<MuscleCategory> muscleCategoryList = em.createQuery("select mc from MuscleCategory mc where mc.name = :name", MuscleCategory.class)
                 .setParameter("name", name)
                 .getResultList();
+        if (muscleCategoryList.isEmpty()) {
+            return null;
+        } else {
+            return muscleCategoryList.get(0);
+        }
     }
 }
