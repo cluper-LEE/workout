@@ -20,12 +20,7 @@ public class MuscleCategoryService {
     }
 
     public MuscleCategory findByName(String name) {
-        List<MuscleCategory> muscleCategories = muscleCategoryRepository.findByName(name);
-        if (muscleCategories.size() > 0) {
-            return muscleCategories.get(0);
-        } else {
-            return null;
-        }
+        return muscleCategoryRepository.findByName(name);
     }
     public List<MuscleCategory> findAll() {
         return muscleCategoryRepository.findAll();
