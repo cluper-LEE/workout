@@ -55,6 +55,9 @@ public class ExerciseController {
             form.setCategory(exerciseMuscleCategories.get(0).getMuscleCategory().getName());
         }
         model.addAttribute("form", form);
+
+        List<MuscleCategory> muscleCategories = muscleCategoryService.findAll();
+        model.addAttribute("categories", muscleCategories);
         return "exercises/updateExerciseForm";
     }
 
