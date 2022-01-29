@@ -13,7 +13,7 @@ public class ExerciseMuscleCategoryService {
     private final ExerciseMuscleCategoryRepository exerciseMuscleCategoryRepository;
 
     @Transactional
-    public void save(ExerciseMuscleCategory exerciseMuscleCategory) {
+    public void saveExerciseMuscleCategory(ExerciseMuscleCategory exerciseMuscleCategory) {
         exerciseMuscleCategoryRepository.save(exerciseMuscleCategory);
     }
 }

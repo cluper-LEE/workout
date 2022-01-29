@@ -55,4 +55,19 @@ public class ExerciseService {
             exerciseMuscleCategoryRepository.save(exerciseMuscleCategory);
         }
     }
+
+    @Transactional
+    public void createExercise(CreateExerciseDto dto) {
+        Exercise exercise = Exercise.createExercise(dto.getName());
+        exerciseRepository.save(exercise);
+
+        MuscleCategory muscleCategory = muscleCategoryRepository.findByName(dto.getCategory());
+        if (muscleCategory == null) {
+            muscleCategory = MuscleCategory.create(dto.getCategory());
+            muscleCategoryRepository.save(muscleCategory);
+        }
+
+        ExerciseMuscleCategory exerciseMuscleCategory = ExerciseMuscleCategory.create(exercise, muscleCategory);
+        exerciseMuscleCategoryRepository.save(exerciseMuscleCategory);
+    }
 }

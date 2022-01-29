@@ -3,7 +3,7 @@ package healthcare.workout.controller;
 import healthcare.workout.domain.Exercise;
 import healthcare.workout.domain.ExerciseMuscleCategory;
 import healthcare.workout.domain.MuscleCategory;
-import healthcare.workout.service.ExerciseMuscleCategoryService;
+import healthcare.workout.service.CreateExerciseDto;
 import healthcare.workout.service.ExerciseService;
 import healthcare.workout.service.MuscleCategoryService;
 import healthcare.workout.service.UpdateExerciseDto;
@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 public class ExerciseController {
     private final ExerciseService exerciseService;
     private final MuscleCategoryService muscleCategoryService;
-    private final ExerciseMuscleCategoryService exerciseMuscleCategoryService;
 
     @GetMapping("/exercises/new")
     public String createForm(Model model) {
@@ -34,20 +32,8 @@ public class ExerciseController {
 
     @PostMapping("/exercises/new")
     public String create(ExerciseForm form) {
-        // create and save exercise
-        Exercise exercise = Exercise.createExercise(form.getName());
-        exerciseService.saveExercise(exercise);
-
-        // search exist category
-        MuscleCategory muscleCategory = muscleCategoryService.findByName(form.getCategory());
-        if (muscleCategory == null) { // if not exist, create category and save
-            muscleCategory = MuscleCategory.create(form.getCategory());
-            muscleCategoryService.saveMuscleCategory(muscleCategory);
-        }
-
-        // create EMC to link exercise and category
-        ExerciseMuscleCategory exerciseMuscleCategory = ExerciseMuscleCategory.create(exercise, muscleCategory);
-        exerciseMuscleCategoryService.save(exerciseMuscleCategory);
+        CreateExerciseDto dto = new CreateExerciseDto(form.getName(), form.getCategory());
+        exerciseService.createExercise(dto);
         return "redirect:/";
     }
 
