@@ -19,7 +19,7 @@ public class Exercise {
 
     private String name;
 
-    @OneToMany(mappedBy = "exercise")
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
     private List<ExerciseMuscleCategory> exerciseMuscleCategories = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,6 +37,10 @@ public class Exercise {
 
     public void addExerciseMuscleCategory(ExerciseMuscleCategory exerciseMuscleCategory) {
         exerciseMuscleCategories.add(exerciseMuscleCategory);
+    }
+
+    public void removeExerciseMuscleCategory(ExerciseMuscleCategory exerciseMuscleCategory) {
+        exerciseMuscleCategories.remove(exerciseMuscleCategory);
     }
 
     public void addChild(Exercise child) {
@@ -61,5 +65,9 @@ public class Exercise {
 
     private void setName(String name) {
         this.name = name;
+    }
+
+    public void changeName(String name) {
+        setName(name);
     }
 }

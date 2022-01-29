@@ -29,6 +29,12 @@ public class ExerciseMuscleCategory {
         return emc;
     }
 
+    public void unlink() {
+        exercise.removeExerciseMuscleCategory(this);
+        muscleCategory.removeExerciseMuscleCategory(this);
+        this.exercise = null; this.muscleCategory = null;
+    }
+
     private void setMuscleCategory(MuscleCategory muscleCategory) {
         this.muscleCategory = muscleCategory;
     }

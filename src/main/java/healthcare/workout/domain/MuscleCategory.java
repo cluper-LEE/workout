@@ -16,7 +16,7 @@ public class MuscleCategory {
 
     private String name;
 
-    @OneToMany(mappedBy = "muscleCategory")
+    @OneToMany(mappedBy = "muscleCategory", cascade = CascadeType.ALL)
     private List<ExerciseMuscleCategory> exerciseMuscleCategories = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,5 +56,9 @@ public class MuscleCategory {
     }
     private void removeChild(MuscleCategory child) {
         this.children.remove(child);
+    }
+
+    public void removeExerciseMuscleCategory(ExerciseMuscleCategory exerciseMuscleCategory) {
+        exerciseMuscleCategories.remove(exerciseMuscleCategory);
     }
 }
