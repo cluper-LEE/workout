@@ -3,7 +3,7 @@ package healthcare.workout.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class DailyWorkout {
     @Column(name = "daily_workout_id")
     private Long id;
 
-    private LocalDateTime date;
+    private LocalDate date;
 
     private String memo;
 
