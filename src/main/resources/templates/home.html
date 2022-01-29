@@ -1,23 +1,23 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
+<head th:include="fragments/header :: header">
     <title>Hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div th:include="fragments/bodyHeader :: bodyHeader" />
     <div class="jumbotron">
         <h1>HELLO SHOP</h1>
-        <p class="lead">회원 기능</p>
+        <p class="lead">운동 기능</p>
         <p>
             <a class="btn btn-lg btn-secondary" href="/exercises/new">운동 추가</a>
-            <a class="btn btn-lg btn-secondary" href="/exercises">회원 목록</a>
+            <a class="btn btn-lg btn-secondary" href="/exercises">운동 목록</a>
         </p>
-        <p class="lead">상품 기능</p>
+        <p class="lead">운동 기록</p>
         <p>
-            <a class="btn btn-lg btn-dark" href="/items/new">상품 등록</a>
-            <a class="btn btn-lg btn-dark" href="/items">상품 목록</a>
+            <a class="btn btn-lg btn-dark" href="/items/new">기록하기</a>
+            <a class="btn btn-lg btn-dark" href="/items">기록들</a>
         </p>
         <p class="lead">주문 기능</p>
         <p>
@@ -25,7 +25,7 @@
             <a class="btn btn-lg btn-info" href="/orders">주문 내역</a>
         </p>
     </div>
-    <div th:replace="fragments/footer :: footer" />
+    <div th:include="fragments/footer :: footer" />
 </div> <!-- /container -->
 </body>
 </html>
