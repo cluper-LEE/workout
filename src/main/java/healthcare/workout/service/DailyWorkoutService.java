@@ -4,14 +4,14 @@ import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.repository.DailyWorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DailyWorkoutService {
     private final DailyWorkoutRepository dailyWorkoutRepository;
@@ -26,4 +26,15 @@ public class DailyWorkoutService {
     public DailyWorkout findByDate(String date) {
         return this.findByDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }
+
+    public DailyWorkout findOne(Long id) {
+        return dailyWorkoutRepository.findOne(id);
+    }
+
+    @Transactional
+    public void save(String date, String memo) {
+        DailyWorkout dailyWorkout = DailyWorkout.create(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")), memo);
+        dailyWorkoutRepository.save(dailyWorkout);
+    }
+
 }

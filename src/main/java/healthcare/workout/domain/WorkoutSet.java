@@ -19,4 +19,8 @@ public class WorkoutSet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_id")
     private Workout workout;
+
+    public void associate(Workout workout) {
+        this.workout = workout;
+    }
 }

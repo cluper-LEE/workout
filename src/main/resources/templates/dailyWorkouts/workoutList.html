@@ -4,13 +4,41 @@
 <body>
 <div class="container">
     <div th:include="fragments/bodyHeader :: bodyHeader"/>
-    <div class="form-group">
-        <label th:for="date">calendar</label>
-        <input type="date" th:field="*{date}" class="form-control"
-               placeholder="운동한 날짜">
-    </div>
-    <a href="#" th:href="@{/dailyWorkouts/{date} (date=${date})}"
-       class="btn btn-primary" role="button">수정</a>
+    <form th:object="${dateForm}" th:action="@{/dailyWorkouts}" method="get">
+        <div class="form-group">
+            <input type="date" th:field="*{date}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">검색</button>
+<!--    <a th:href="@{/dailyWorkouts/{date} (date=${date})}">검색</a>-->
+    </form>
+    <hr>
+
+    <form th:action="@{/dailyWorkouts/new}" th:object="${dailyWorkoutForm}" method="post">
+        <div th:if="${dailyWorkoutForm} == null">
+
+        </div>
+    </form>
+    <form th:action="@{/dailyWorkouts/new}" th:object="${dailyWorkoutForm}" method="post">
+        <div th:unless="${dailyWorkoutForm} == null">
+            <table th:each="workoutForm : *{workoutForms}" class="table table-secondary">
+                <caption th:text="${workoutForm.exerciseName}"></caption>
+                <thead>
+                <tr>
+                    <th>세트</th>
+                    <th>무게</th>
+                    <th>횟수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="workoutSetForm : ${workoutForm.workoutSetFormList}">
+                    <td th:text="${workoutSetForm.setNum}"></td>
+                    <td th:text="${workoutSetForm.weight}"></td>
+                    <td th:text="${workoutSetForm.reps}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
     <br/>
     <div th:include="fragments/footer :: footer" />
 </div> <!-- /container -->

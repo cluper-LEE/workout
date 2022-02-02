@@ -17,7 +17,7 @@ public class WorkoutForm {
     private Long id;
     private String exerciseName;
     private String memo;
-    private List<WorkoutSetForm> workoutSetFormList = new ArrayList<>();
+    private List<WorkoutSetForm> workoutSetForms = new ArrayList<>();
 
     public WorkoutForm(Long id, String exerciseName, String memo) {
         this.id = id;
@@ -28,7 +28,7 @@ public class WorkoutForm {
     public static WorkoutForm create(Workout workout) {
         WorkoutForm workoutForm = new WorkoutForm(workout.getId(), workout.getExercise().getName(), workout.getMemo());
         for (WorkoutSet workoutSet : workout.getWorkoutSets()) {
-            workoutForm.getWorkoutSetFormList().add(WorkoutSetForm.create(workoutSet));
+            workoutForm.getWorkoutSetForms().add(WorkoutSetForm.create(workoutSet));
         }
         return workoutForm;
     }

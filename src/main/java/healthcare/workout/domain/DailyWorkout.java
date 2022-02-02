@@ -21,4 +21,25 @@ public class DailyWorkout {
 
     @OneToMany(mappedBy = "dailyWorkout")
     private List<Workout> workouts = new ArrayList<>();
+
+
+    public static DailyWorkout create(LocalDate date, String memo) {
+        DailyWorkout dailyWorkout = new DailyWorkout();
+        dailyWorkout.setDate(date);
+        dailyWorkout.setMemo(memo);
+        return dailyWorkout;
+    }
+
+    public void addWorkout(Workout workout) {
+        this.addWorkout(workout);
+        workout.associate(this);
+    }
+
+    private void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    private void setDate(LocalDate date) {
+        this.date = date;
+    }
 }
