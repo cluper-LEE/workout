@@ -28,4 +28,12 @@ public class DailyWorkoutRepository {
             return dailyWorkouts.get(0);
         }
     }
+
+    public DailyWorkout findOne(Long id) {
+        return em.find(DailyWorkout.class, id);
+    }
+
+    public void save(DailyWorkout dailyWorkout) {
+        em.persist(dailyWorkout);
+    }
 }

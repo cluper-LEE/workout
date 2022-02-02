@@ -26,4 +26,13 @@ public class Workout {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "daily_workout_id")
     private DailyWorkout dailyWorkout;
+
+    public void associate(DailyWorkout dailyWorkout) {
+        this.dailyWorkout = dailyWorkout;
+    }
+
+    public void addWorkoutSet(WorkoutSet workoutSet) {
+        workoutSets.add(workoutSet);
+        workoutSet.associate(this);
+    }
 }

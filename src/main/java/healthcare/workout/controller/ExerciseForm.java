@@ -2,7 +2,9 @@ package healthcare.workout.controller;
 
 import healthcare.workout.domain.Exercise;
 import healthcare.workout.domain.ExerciseMuscleCategory;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -10,11 +12,14 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExerciseForm {
-    private Long id;
+    Long id;
     private String name;
     private String category;
-    private String parent;
-//    private List<String> children = new ArrayList<>();
+
+    public ExerciseForm(Long id,String name, String category){
+        this.id = id; this.name = name; this.category = category;
+    }
 }
 
