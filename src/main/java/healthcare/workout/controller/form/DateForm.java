@@ -1,4 +1,4 @@
-package healthcare.workout.controller;
+package healthcare.workout.controller.form;
 
 import lombok.AccessLevel;
 import lombok.Getter;

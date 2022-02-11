@@ -1,6 +1,5 @@
-package healthcare.workout.controller;
+package healthcare.workout.controller.form;
 
-import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.domain.Exercise;
 import healthcare.workout.domain.Workout;
 import healthcare.workout.domain.WorkoutSet;

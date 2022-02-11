@@ -1,14 +1,10 @@
-package healthcare.workout.controller;
+package healthcare.workout.controller.form;
 
 import healthcare.workout.domain.Exercise;
-import healthcare.workout.domain.ExerciseMuscleCategory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
