@@ -1,4 +1,4 @@
-package healthcare.workout.service;
+package healthcare.workout.service.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

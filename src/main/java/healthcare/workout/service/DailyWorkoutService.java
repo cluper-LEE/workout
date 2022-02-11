@@ -1,6 +1,5 @@
 package healthcare.workout.service;
 
-import healthcare.workout.controller.DailyWorkoutForm;
 import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.repository.DailyWorkoutRepository;
 import lombok.RequiredArgsConstructor;

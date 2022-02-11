@@ -6,6 +6,8 @@ import healthcare.workout.domain.MuscleCategory;
 import healthcare.workout.repository.ExerciseMuscleCategoryRepository;
 import healthcare.workout.repository.ExerciseRepository;
 import healthcare.workout.repository.MuscleCategoryRepository;
+import healthcare.workout.service.dto.CreateExerciseDto;
+import healthcare.workout.service.dto.UpdateExerciseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
