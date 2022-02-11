@@ -21,5 +21,9 @@ public class ExerciseForm {
     public ExerciseForm(Long id,String name, String category){
         this.id = id; this.name = name; this.category = category;
     }
+
+    public static ExerciseForm create(Exercise exercise) {
+        return new ExerciseForm(exercise.getId(), exercise.getName(), exercise.getExerciseMuscleCategories().get(0).getMuscleCategory().getName());
+    }
 }
 

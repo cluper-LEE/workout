@@ -1,5 +1,6 @@
 package healthcare.workout.service;
 
+import healthcare.workout.controller.DailyWorkoutForm;
 import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.repository.DailyWorkoutRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,18 @@ public class DailyWorkoutService {
     }
 
     @Transactional
-    public void save(String date, String memo) {
-        DailyWorkout dailyWorkout = DailyWorkout.create(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")), memo);
+    public void save(LocalDate date, String memo) {
+        DailyWorkout dailyWorkout = DailyWorkout.create(date, memo);
         dailyWorkoutRepository.save(dailyWorkout);
     }
 
+    @Transactional
+    public DailyWorkout update(Long id, LocalDate date, String memo) {
+        DailyWorkout dailyWorkout = dailyWorkoutRepository.findOne(id);
+        dailyWorkout.update(
+                (date == null) ? dailyWorkout.getDate() : date,
+                (memo == null) ? dailyWorkout.getMemo() : memo
+        );
+        return dailyWorkout;
+    }
 }

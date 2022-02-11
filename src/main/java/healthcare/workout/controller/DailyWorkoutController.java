@@ -3,17 +3,13 @@ package healthcare.workout.controller;
 import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.domain.Workout;
 import healthcare.workout.service.DailyWorkoutService;
+import healthcare.workout.service.WorkoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DailyWorkoutController {
     private final DailyWorkoutService dailyWorkoutService;
+    private final WorkoutService workoutService;
 
 //    @GetMapping("/dailyWorkouts")
 //    public String calendar(DateForm dateForm, Model model) {
@@ -69,4 +66,29 @@ public class DailyWorkoutController {
         return ResponseEntity.ok(dailyWorkoutForm);
     }
 
+    @GetMapping(value = "/workouts", params = "dailyWorkoutId")
+    public ResponseEntity<List<WorkoutForm>> getWorkoutsByDailyWorkoutId(@RequestParam("dailyWorkoutId") Long dailyWorkoutId) {
+        List<Workout> workouts = dailyWorkoutService.findOne(dailyWorkoutId).getWorkouts();
+        List<WorkoutForm> workoutForms = new ArrayList<>();
+        for (Workout workout : workouts) {
+            workoutForms.add( WorkoutForm.create(workout));
+        }
+        return ResponseEntity.ok(workoutForms);
+    }
+
+    @PatchMapping("/dailyWorkouts")
+    public ResponseEntity<DailyWorkoutForm> patchDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm, UriComponentsBuilder ucBuilder){
+        DailyWorkout dailyWorkout = dailyWorkoutService.update(dailyWorkoutForm.getId(), dailyWorkoutForm.getDate(), dailyWorkoutForm.getMemo());
+        DailyWorkoutForm retForm = DailyWorkoutForm.create(dailyWorkout);
+        URI uri = ucBuilder.path("/dailyWorkouts/{id}").buildAndExpand(dailyWorkout.getId()).toUri();
+        return ResponseEntity.created(uri).body(dailyWorkoutForm);
+    }
+
+    @PostMapping("/workouts")
+    public ResponseEntity<WorkoutForm> createWorkout( @RequestBody WorkoutForm workoutForm, UriComponentsBuilder ucBuilder) {
+        Workout workout = workoutService.createWorkout(workoutForm.getDailyWorkoutForm().getId(), workoutForm.getExerciseForm().getId(), workoutForm.getMemo());
+        WorkoutForm retForm = WorkoutForm.create(workout);
+        URI uri = ucBuilder.buildAndExpand(workoutForm).toUri();
+        return ResponseEntity.created(uri).body(retForm);
+    }
 }

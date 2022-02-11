@@ -1,6 +1,7 @@
 package healthcare.workout.domain;
 
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class DailyWorkout {
     @Column(name = "daily_workout_id")
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     private String memo;
@@ -31,7 +33,7 @@ public class DailyWorkout {
     }
 
     public void addWorkout(Workout workout) {
-        this.addWorkout(workout);
+        this.workouts.add(workout);
         workout.associate(this);
     }
 
@@ -41,5 +43,9 @@ public class DailyWorkout {
 
     private void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void update(LocalDate date, String memo) {
+        this.date = date; this.memo = memo;
     }
 }

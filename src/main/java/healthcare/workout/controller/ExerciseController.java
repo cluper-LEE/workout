@@ -37,6 +37,7 @@ public class ExerciseController {
         for(Exercise exercise : exerciseList){
             exerciseFormList.add(new ExerciseForm(exercise.getId(), exercise.getName(), exercise.getExerciseMuscleCategories().get(0).getMuscleCategory().getName()));
         }
+        if(exerciseFormList.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(exerciseFormList);
     }
 

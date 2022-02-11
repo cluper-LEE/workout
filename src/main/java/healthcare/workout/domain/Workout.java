@@ -27,6 +27,15 @@ public class Workout {
     @JoinColumn(name = "daily_workout_id")
     private DailyWorkout dailyWorkout;
 
+    public static Workout create(DailyWorkout dailyWorkout, Exercise exercise, String memo) {
+        Workout workout = new Workout();
+        workout.dailyWorkout = dailyWorkout;
+        dailyWorkout.addWorkout(workout);
+        workout.exercise = exercise;
+        workout.memo = memo;
+        return workout;
+    }
+
     public void associate(DailyWorkout dailyWorkout) {
         this.dailyWorkout = dailyWorkout;
     }

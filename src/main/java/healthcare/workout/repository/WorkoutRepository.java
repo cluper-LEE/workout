@@ -11,7 +11,12 @@ import javax.persistence.EntityManager;
 public class WorkoutRepository {
     private final EntityManager em;
 
-    public void save(Workout workout) {
+    public Workout save(Workout workout) {
         em.persist(workout);
+        return workout;
+    }
+
+    public Workout findOne(Long id) {
+        return em.find(Workout.class, id);
     }
 }
