@@ -23,7 +23,6 @@ public class WorkoutForm {
     public WorkoutForm(Long id, Exercise exercise, String memo) {
         this.id = id;
         this.exerciseForm = ExerciseForm.create(exercise);
-//        this.dailyWorkoutForm = DailyWorkoutForm.create(dailyWorkout);
         this.memo = memo;
     }
 

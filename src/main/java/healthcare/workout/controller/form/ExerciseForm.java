@@ -23,6 +23,7 @@ public class ExerciseForm {
     }
 
     public static ExerciseForm create(Exercise exercise) {
+        if(exercise==null)return null;
         return new ExerciseForm(exercise.getId(), exercise.getName(), exercise.getExerciseMuscleCategories().get(0).getMuscleCategory().getName());
     }
 }
