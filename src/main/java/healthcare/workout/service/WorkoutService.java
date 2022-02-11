@@ -1,5 +1,6 @@
 package healthcare.workout.service;
 
+import healthcare.workout.controller.ExerciseForm;
 import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.domain.Exercise;
 import healthcare.workout.domain.Workout;
@@ -28,5 +29,13 @@ public class WorkoutService {
 
     public Workout findOne(Long id) {
         return workoutRepository.findOne(id);
+    }
+
+    @Transactional
+    public Workout update(Long id, Long exerciseId, String memo) {
+        Workout workout = workoutRepository.findOne(id);
+        Exercise exercise = exerciseRepository.findOne(exerciseId);
+        workout.update(exercise, memo);
+        return workout;
     }
 }

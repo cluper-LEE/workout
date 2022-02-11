@@ -44,4 +44,9 @@ public class Workout {
         workoutSets.add(workoutSet);
         workoutSet.associate(this);
     }
+
+    public void update(Exercise exercise, String memo) {
+        this.exercise = exercise;
+        this.memo = memo;
+    }
 }

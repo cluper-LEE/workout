@@ -66,6 +66,13 @@ public class DailyWorkoutController {
         return ResponseEntity.ok(dailyWorkoutForm);
     }
 
+    @PatchMapping("/dailyWorkouts")
+    public ResponseEntity<DailyWorkoutForm> patchDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm){
+        DailyWorkout dailyWorkout = dailyWorkoutService.update(dailyWorkoutForm.getId(), dailyWorkoutForm.getDate(), dailyWorkoutForm.getMemo());
+        DailyWorkoutForm retForm = DailyWorkoutForm.create(dailyWorkout);
+        return ResponseEntity.ok(dailyWorkoutForm);
+    }
+
     @GetMapping(value = "/workouts", params = "dailyWorkoutId")
     public ResponseEntity<List<WorkoutForm>> getWorkoutsByDailyWorkoutId(@RequestParam("dailyWorkoutId") Long dailyWorkoutId) {
         List<Workout> workouts = dailyWorkoutService.findOne(dailyWorkoutId).getWorkouts();
@@ -76,19 +83,18 @@ public class DailyWorkoutController {
         return ResponseEntity.ok(workoutForms);
     }
 
-    @PatchMapping("/dailyWorkouts")
-    public ResponseEntity<DailyWorkoutForm> patchDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm, UriComponentsBuilder ucBuilder){
-        DailyWorkout dailyWorkout = dailyWorkoutService.update(dailyWorkoutForm.getId(), dailyWorkoutForm.getDate(), dailyWorkoutForm.getMemo());
-        DailyWorkoutForm retForm = DailyWorkoutForm.create(dailyWorkout);
-        URI uri = ucBuilder.path("/dailyWorkouts/{id}").buildAndExpand(dailyWorkout.getId()).toUri();
-        return ResponseEntity.created(uri).body(dailyWorkoutForm);
-    }
-
     @PostMapping("/workouts")
     public ResponseEntity<WorkoutForm> createWorkout( @RequestBody WorkoutForm workoutForm, UriComponentsBuilder ucBuilder) {
         Workout workout = workoutService.createWorkout(workoutForm.getDailyWorkoutForm().getId(), workoutForm.getExerciseForm().getId(), workoutForm.getMemo());
         WorkoutForm retForm = WorkoutForm.create(workout);
-        URI uri = ucBuilder.buildAndExpand(workoutForm).toUri();
+        URI uri = ucBuilder.buildAndExpand(retForm).toUri();
         return ResponseEntity.created(uri).body(retForm);
+    }
+
+    @PatchMapping("/workouts")
+    public ResponseEntity<WorkoutForm> patchWorkout(@RequestBody WorkoutForm workoutForm) {
+        Workout workout = workoutService.update(workoutForm.getId(), workoutForm.getExerciseForm().getId(), workoutForm.getMemo());
+        WorkoutForm retForm = WorkoutForm.create(workout);
+        return ResponseEntity.ok(retForm);
     }
 }
