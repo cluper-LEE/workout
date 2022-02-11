@@ -1,5 +1,7 @@
 package healthcare.workout.controller;
 
+import healthcare.workout.controller.form.DailyWorkoutForm;
+import healthcare.workout.controller.form.WorkoutForm;
 import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.domain.Workout;
 import healthcare.workout.service.DailyWorkoutService;
@@ -18,17 +20,6 @@ import java.util.List;
 public class DailyWorkoutController {
     private final DailyWorkoutService dailyWorkoutService;
     private final WorkoutService workoutService;
-
-//    @GetMapping("/dailyWorkouts")
-//    public String calendar(DateForm dateForm, Model model) {
-//        if (dateForm.getDate() == null) dateForm.setDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-//        DailyWorkout dailyWorkout = dailyWorkoutService.findByDate(dateForm.getDate());
-//        DailyWorkoutForm dailyWorkoutForm = null;
-//        if (dailyWorkout != null) dailyWorkoutForm = DailyWorkoutForm.create(dailyWorkout);
-//        model.addAttribute("dailyWorkoutForm", dailyWorkoutForm);
-//        model.addAttribute("dateForm", dateForm);
-//        return "dailyWorkouts/workoutList";
-//    }
 
     @PostMapping("/dailyWorkouts")
     public ResponseEntity<DailyWorkoutForm> createDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm, UriComponentsBuilder ucBuilder) {
@@ -96,5 +87,11 @@ public class DailyWorkoutController {
         Workout workout = workoutService.update(workoutForm.getId(), workoutForm.getExerciseForm().getId(), workoutForm.getMemo());
         WorkoutForm retForm = WorkoutForm.create(workout);
         return ResponseEntity.ok(retForm);
+    }
+
+    @DeleteMapping("/workouts/{id}")
+    public ResponseEntity<WorkoutForm> deleteWorkout(@PathVariable("id") Long id) {
+        workoutService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

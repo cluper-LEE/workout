@@ -19,4 +19,8 @@ public class WorkoutRepository {
     public Workout findOne(Long id) {
         return em.find(Workout.class, id);
     }
+
+    public void delete(Workout workout) {
+        em.remove(workout);
+    }
 }
