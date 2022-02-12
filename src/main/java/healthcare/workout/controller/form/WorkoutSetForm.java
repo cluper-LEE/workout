@@ -14,6 +14,7 @@ public class WorkoutSetForm {
     private int setNum;
     private int weight;
     private int reps;
+    private WorkoutForm workoutForm;
 
     public WorkoutSetForm(Long id, int setNum, int weight, int reps) {
         this.id = id;

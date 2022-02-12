@@ -2,10 +2,13 @@ package healthcare.workout.controller;
 
 import healthcare.workout.controller.form.DailyWorkoutForm;
 import healthcare.workout.controller.form.WorkoutForm;
+import healthcare.workout.controller.form.WorkoutSetForm;
 import healthcare.workout.domain.DailyWorkout;
 import healthcare.workout.domain.Workout;
+import healthcare.workout.domain.WorkoutSet;
 import healthcare.workout.service.DailyWorkoutService;
 import healthcare.workout.service.WorkoutService;
+import healthcare.workout.service.WorkoutSetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,7 @@ import java.util.List;
 public class DailyWorkoutController {
     private final DailyWorkoutService dailyWorkoutService;
     private final WorkoutService workoutService;
+    private final WorkoutSetService workoutSetService;
 
     @PostMapping("/dailyWorkouts")
     public ResponseEntity<DailyWorkoutForm> createDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm, UriComponentsBuilder ucBuilder) {
@@ -50,7 +54,7 @@ public class DailyWorkoutController {
     @GetMapping(value = "/dailyWorkouts", params = "date")
     public ResponseEntity<DailyWorkoutForm> getDailyWorkoutByDate(@RequestParam("date") String date) {
         DailyWorkout dailyWorkout = dailyWorkoutService.findByDate(date);
-        if(dailyWorkout == null){
+        if (dailyWorkout == null) {
             return ResponseEntity.noContent().build();
         }
         DailyWorkoutForm dailyWorkoutForm = DailyWorkoutForm.create(dailyWorkout);
@@ -58,7 +62,7 @@ public class DailyWorkoutController {
     }
 
     @PatchMapping("/dailyWorkouts")
-    public ResponseEntity<DailyWorkoutForm> patchDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm){
+    public ResponseEntity<DailyWorkoutForm> patchDailyWorkout(@RequestBody DailyWorkoutForm dailyWorkoutForm) {
         DailyWorkout dailyWorkout = dailyWorkoutService.update(dailyWorkoutForm.getId(), dailyWorkoutForm.getDate(), dailyWorkoutForm.getMemo());
         DailyWorkoutForm retForm = DailyWorkoutForm.create(dailyWorkout);
         return ResponseEntity.ok(dailyWorkoutForm);
@@ -69,13 +73,13 @@ public class DailyWorkoutController {
         List<Workout> workouts = dailyWorkoutService.findOne(dailyWorkoutId).getWorkouts();
         List<WorkoutForm> workoutForms = new ArrayList<>();
         for (Workout workout : workouts) {
-            workoutForms.add( WorkoutForm.create(workout));
+            workoutForms.add(WorkoutForm.create(workout));
         }
         return ResponseEntity.ok(workoutForms);
     }
 
     @PostMapping("/workouts")
-    public ResponseEntity<WorkoutForm> createWorkout( @RequestBody WorkoutForm workoutForm, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<WorkoutForm> createWorkout(@RequestBody WorkoutForm workoutForm, UriComponentsBuilder ucBuilder) {
         Workout workout = workoutService.createWorkout(workoutForm.getDailyWorkoutForm().getId(), workoutForm.getExerciseForm().getId(), workoutForm.getMemo());
         WorkoutForm retForm = WorkoutForm.create(workout);
         URI uri = ucBuilder.buildAndExpand(retForm).toUri();
@@ -92,6 +96,28 @@ public class DailyWorkoutController {
     @DeleteMapping("/workouts/{id}")
     public ResponseEntity<WorkoutForm> deleteWorkout(@PathVariable("id") Long id) {
         workoutService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/workoutSets")
+    public ResponseEntity<WorkoutSetForm> createWorkoutSet(@RequestBody WorkoutSetForm workoutSetForm, UriComponentsBuilder uriComponentsBuilder) {
+        WorkoutSet workoutSet = workoutSetService.createWorkoutSet(workoutSetForm.getWorkoutForm().getId(), workoutSetForm.getSetNum(), workoutSetForm.getWeight(), workoutSetForm.getReps());
+        WorkoutSetForm retForm = WorkoutSetForm.create(workoutSet);
+        URI uri = uriComponentsBuilder.buildAndExpand(retForm).toUri();
+        return ResponseEntity.created(uri).body(retForm);
+    }
+
+    @PatchMapping("/workoutSets")
+    public ResponseEntity<WorkoutSetForm> patchWorkoutSet(@RequestBody WorkoutSetForm workoutSetForm, UriComponentsBuilder uriComponentsBuilder) {
+        WorkoutSet workoutSet = workoutSetService.update(workoutSetForm.getId(), workoutSetForm.getSetNum(), workoutSetForm.getWeight(), workoutSetForm.getReps());
+        WorkoutSetForm retForm = WorkoutSetForm.create(workoutSet);
+        URI uri = uriComponentsBuilder.buildAndExpand(retForm).toUri();
+        return ResponseEntity.created(uri).body(retForm);
+    }
+
+    @DeleteMapping("/workoutSets/{id}")
+    public ResponseEntity<WorkoutSetForm> deleteWorkoutSet(@PathVariable("id") Long id) {
+        workoutSetService.remove(id);
         return ResponseEntity.noContent().build();
     }
 }
